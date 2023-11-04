@@ -8,34 +8,33 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #90ade7, #db7df2);
         }
 
         .container {
-            background-color: #fff;
+            background-color: #f8f9fa;
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
         }
 
         .btn-add {
-            background-color: #007BFF;
+            background-color: #d7d4e3;
             border: none;
         }
-        
 
         .btn-add:hover {
-            background-color: #0056b3;
+            background-color: #2b2188;
         }
 
         .list-group-item {
-            background-color: #f7f7f7;
-            border: 1px solid #ccc;
+            background-color: #e9ecef;
+            border: 1px solid #adb5bd;
         }
 
         .btnn,
         .btnnn {
-            background-color: #dc3545;
+            background-color: rgb(7, 40, 67);
             color: #fff;
             border: none;
             margin: 2px;
@@ -45,10 +44,30 @@
         .btnnn:hover {
             background-color: #a31d29;
         }
+
+        .form-control {
+            background-color: #fff;
+            color: #495057;
+            border: 1px solid #ced4da;
+        }
+
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        label {
+            color: #0b110a;
+        }
+
+        h1 {
+            color: rgb(205, 50, 109)
+        }
     </style>
 </head>
 
 <body>
+
     <div class="container mt-4">
         <h1 class="text-center">Booking Form</h1>
         <div class="row">
@@ -59,10 +78,10 @@
                         <input type="text" class="form-control namee" id="namee">
                     </div>
                     <div class="form-group">
-                        <label for "name2">Email Id</label>
+                        <label for="name2">email Id</label>
                         <input type="email" class="form-control name2" id="name2">
                     </div>
-                    <button type="button" class="btn btn-add">Add</button>
+                    <button type="button" class="btn btn-add" onclick="add()">Add</button>
                 </form>
             </div>
         </div>
@@ -71,7 +90,7 @@
         <ul class="list-group newC">
         </ul>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
     <script>
         const input = document.querySelector(".namee");
         const input1 = document.querySelector(".name2");
@@ -82,7 +101,7 @@
         document.addEventListener("DOMContentLoaded", loadUserDetails);
 
         function loadUserDetails() {
-            axios.get('https://crudcrud.com/api/bd79296fda4643af8c1f46e7057a13c3/bookingform')
+            axios.get('https://crudcrud.com/api/0874719fbe124f5aa3bcd7e16e0f7037/appoinment')
                 .then((response) => {
                     const userDetails = response.data;
                     const newC = document.querySelector(".newC");
@@ -102,6 +121,20 @@
                         dltBtn.classList.add("btnn");
                         dltBtn.innerHTML = "Delete";
                         lis.appendChild(dltBtn);
+
+
+
+
+                        lis.id = user._id;
+
+                        dltBtn.onclick = function () {
+                            deleteItem(user._id); // Call deleteItem function with the ID associated with the user
+                        };
+
+                        lis.appendChild(dltBtn);
+
+
+
 
                         const editBtn = document.createElement("button");
                         editBtn.classList.add("btnnn");
@@ -136,6 +169,19 @@
                 dltBtn.innerHTML = "Delete";
                 lis.appendChild(dltBtn);
 
+
+
+                // lis.id = user._id;
+
+                //     dltBtn.onclick = function () {
+                //         deleteItem(user._id); // Call deleteItem function with the ID associated with the user
+                //     };
+
+                //     lis.appendChild(dltBtn);
+
+
+
+
                 const editBtn = document.createElement("button");
                 editBtn.classList.add("btnnn");
                 editBtn.innerHTML = "Edit";
@@ -146,7 +192,7 @@
                     email: input1.value,
                 };
 
-                axios.post('https://crudcrud.com/api/bd79296fda4643af8c1f46e7057a13c3/bookingform', userDetails)
+                axios.post('https://crudcrud.com/api/0874719fbe124f5aa3bcd7e16e0f7037/appoinment', userDetails)
                     .then((response) => {
                         console.log(response.data);
                     })
@@ -158,6 +204,19 @@
             input1.value = '';
         }
 
+
+        // function deleteItem(id) {
+        //     axios.delete('https://crudcrud.com/api/0874719fbe124f5aa3bcd7e16e0f7037/appoinment/${id}')
+        //         .then((response) => {
+        //             const itemToDelete = document.getElementById(id);
+        //             if (itemToDelete) {
+        //                 itemToDelete.remove();
+        //             }
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error deleting item:', error);
+        //         });
+        // }
         neww.addEventListener("click", function (e) {
             if (e.target.className === "btnn") {
                 e.target.parentElement.remove();
@@ -168,7 +227,22 @@
                 e.target.parentElement.remove();
             }
         });
+
+
+        function deleteItem(id) {
+            axios.delete('https://crudcrud.com/api/0874719fbe124f5aa3bcd7e16e0f7037/appoinment/${id}')
+                .then((response) => {
+                    const itemToDelete = document.getElementById(id);
+                    if (itemToDelete) {
+                        itemToDelete.remove();
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error deleting item:', error);
+                });
+        }
     </script>
+
 </body>
 
 </html>
