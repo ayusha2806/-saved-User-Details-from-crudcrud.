@@ -139,6 +139,10 @@
                         const editBtn = document.createElement("button");
                         editBtn.classList.add("btnnn");
                         editBtn.innerHTML = "Edit";
+
+                        editBtn.onclick = function () {
+                            editItem(user._id, user.name, user.email); // Call editItem function with the user's ID, name, and email
+                        };
                         lis.appendChild(editBtn);
 
                         newC.appendChild(lis);
@@ -169,19 +173,6 @@
                 dltBtn.innerHTML = "Delete";
                 lis.appendChild(dltBtn);
 
-
-
-                // lis.id = user._id;
-
-                //     dltBtn.onclick = function () {
-                //         deleteItem(user._id); // Call deleteItem function with the ID associated with the user
-                //     };
-
-                //     lis.appendChild(dltBtn);
-
-
-
-
                 const editBtn = document.createElement("button");
                 editBtn.classList.add("btnnn");
                 editBtn.innerHTML = "Edit";
@@ -205,18 +196,6 @@
         }
 
 
-        // function deleteItem(id) {
-        //     axios.delete('https://crudcrud.com/api/0874719fbe124f5aa3bcd7e16e0f7037/appoinment/${id}')
-        //         .then((response) => {
-        //             const itemToDelete = document.getElementById(id);
-        //             if (itemToDelete) {
-        //                 itemToDelete.remove();
-        //             }
-        //         })
-        //         .catch((error) => {
-        //             console.error('Error deleting item:', error);
-        //         });
-        // }
         neww.addEventListener("click", function (e) {
             if (e.target.className === "btnn") {
                 e.target.parentElement.remove();
@@ -230,7 +209,7 @@
 
 
         function deleteItem(id) {
-            axios.delete('https://crudcrud.com/api/0874719fbe124f5aa3bcd7e16e0f7037/appoinment/${id}')
+            axios.delete(`https://crudcrud.com/api/0874719fbe124f5aa3bcd7e16e0f7037/appoinment/${id}`)
                 .then((response) => {
                     const itemToDelete = document.getElementById(id);
                     if (itemToDelete) {
@@ -238,8 +217,32 @@
                     }
                 })
                 .catch((error) => {
-                    console.error('Error deleting item:', error);
+                    console.error(error);
                 });
+        }
+
+
+        function editItem(id, name, email) {
+            const newName = ("Enter the new name", name);
+            const newEmail = ("Enter the new email", email);
+
+            if (newName && newEmail) {
+                const updatedUser = { name: newName, email: newEmail };
+
+                axios.put(`https://crudcrud.com/api/0874719fbe124f5aa3bcd7e16e0f7037/appoinment/${id}`, updatedUser)
+                    .then((response) => {
+                        // Update the list item's content with the updated data
+                        const listItem = document.getElementById(id);
+                        if (listItem) {
+                            listItem.innerHTML = `name:- ${newName} email:- ${newEmail}`;
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+                    deleteItem(id);
+                    
+            }
         }
     </script>
 
